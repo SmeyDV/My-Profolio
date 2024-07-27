@@ -4,11 +4,21 @@ import ProjectCard from "./ProjectCard";
 import ProjectTag from "./ProjectTag";
 import { motion, useInView } from "framer-motion";
 
-const projectsData = [
+interface Project {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  tag: string[];
+  gitUrl: string;
+  previewUrl: string;
+}
+
+const projectsData: Project[] = [
   {
     id: 1,
-    title: "Lohak Khmer Handicraft ",
-    description: "This is a e-commerce website for a khmer handicraft community and promote khmer products.",
+    title: "Lohak Khmer Handicraft",
+    description: "This is an e-commerce website for a Khmer handicraft community to promote Khmer products.",
     image: "/images/projects/1.png",
     tag: ["All", "Web"],
     gitUrl: "https://github.com/SmeyDV/lohak",
@@ -41,15 +51,14 @@ const projectsData = [
   //   gitUrl: "/",
   //   previewUrl: "/",
   // }
- 
 ];
 
-const ProjectsSection = () => {
-  const [tag, setTag] = useState("All");
-  const ref = useRef(null);
+const ProjectsSection: React.FC = () => {
+  const [tag, setTag] = useState<string>("All");
+  const ref = useRef<HTMLUListElement>(null);
   const isInView = useInView(ref, { once: true });
 
-  const handleTagChange = (newTag) => {
+  const handleTagChange = (newTag: string) => {
     setTag(newTag);
   };
 
@@ -69,17 +78,17 @@ const ProjectsSection = () => {
       </h2>
       <div className="text-white flex flex-row justify-center items-center gap-2 py-6">
         <ProjectTag
-          onClick={handleTagChange}
+          onClick={() => handleTagChange("All")}
           name="All"
           isSelected={tag === "All"}
         />
         <ProjectTag
-          onClick={handleTagChange}
+          onClick={() => handleTagChange("Web")}
           name="Web"
           isSelected={tag === "Web"}
         />
         <ProjectTag
-          onClick={handleTagChange}
+          onClick={() => handleTagChange("Mobile")}
           name="Mobile"
           isSelected={tag === "Mobile"}
         />

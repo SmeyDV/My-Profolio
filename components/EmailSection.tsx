@@ -5,20 +5,21 @@ import FacebookIcon from "../public/facebook-icon.svg";
 import Link from "next/link";
 import Image from "next/image";
 
-const EmailSection = () => {
+const EmailSection: React.FC = () => {
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
+    const form = e.currentTarget;
     const data = {
-      email: e.target.email.value,
-      subject: e.target.subject.value,
-      message: e.target.message.value,
+      email: form.email.value,
+      subject: form.subject.value,
+      message: form.message.value,
     };
     const JSONdata = JSON.stringify(data);
     const endpoint = "/api/send";
@@ -35,13 +36,14 @@ const EmailSection = () => {
       const response = await fetch(endpoint, options);
       const resData = await response.json();
 
-      if (response.status === 200) {
+      if (response.ok) {
         console.log("Message sent.");
         setEmailSubmitted(true);
       } else {
-        setError("Failed to send the email. Please try again.");
+        setError(resData.error || "Failed to send the email. Please try again.");
       }
     } catch (err) {
+      console.error(err);
       setError("An error occurred. Please try again.");
     } finally {
       setLoading(false);
