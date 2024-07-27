@@ -8,9 +8,14 @@ import Image from "next/image";
 
 const EmailSection = () => {
   const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
+
     const data = {
       email: e.target.email.value,
       subject: e.target.subject.value,
@@ -19,24 +24,28 @@ const EmailSection = () => {
     const JSONdata = JSON.stringify(data);
     const endpoint = "/api/send";
 
-    // Form the request for sending data to the server.
     const options = {
-      // The method is POST because we are sending data.
       method: "POST",
-      // Tell the server we're sending JSON.
       headers: {
         "Content-Type": "application/json",
       },
-      // Body of the request is the JSON data we created above.
       body: JSONdata,
     };
 
-    const response = await fetch(endpoint, options);
-    const resData = await response.json();
+    try {
+      const response = await fetch(endpoint, options);
+      const resData = await response.json();
 
-    if (response.status === 200) {
-      console.log("Message sent.");
-      setEmailSubmitted(true);
+      if (response.status === 200) {
+        console.log("Message sent.");
+        setEmailSubmitted(true);
+      } else {
+        setError("Failed to send the email. Please try again.");
+      }
+    } catch (err) {
+      setError("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -51,7 +60,6 @@ const EmailSection = () => {
           Let&apos;s Connect
         </h5>
         <p className="text-[#ADB7BE] mb-4 max-w-md">
-          {" "}
           I&apos;m currently looking for new opportunities, my inbox is always
           open. Whether you have a question or just want to say hi, I&apos;ll
           try my best to get back to you!
@@ -60,9 +68,6 @@ const EmailSection = () => {
           <Link href="https://github.com/SmeyDV" target="_blank">
             <Image src={GithubIcon} alt="Github Icon" />
           </Link>
-          {/* <Link href="/">
-            <Image src={LinkedinIcon} alt="Linkedin Icon" />
-          </Link> */}
           <Link href="https://www.facebook.com/reaksmey.rin.1/">
             <Image className="w-[50px] h-[50px]" src={FacebookIcon} alt="Facebook Icon" />
           </Link>
@@ -117,6 +122,7 @@ const EmailSection = () => {
               <textarea
                 name="message"
                 id="message"
+                required
                 className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5"
                 placeholder="Let's talk about..."
               />
@@ -124,9 +130,11 @@ const EmailSection = () => {
             <button
               type="submit"
               className="bg-primary-500 hover:bg-primary-600 text-white font-medium py-2.5 px-5 rounded-lg w-full"
+              disabled={loading}
             >
-              Send Message
+              {loading ? "Sending..." : "Send Message"}
             </button>
+            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </form>
         )}
       </div>

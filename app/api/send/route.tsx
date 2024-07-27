@@ -7,6 +7,11 @@ const fromEmail = process.env.FROM_EMAIL;
 export async function POST(req: Request) {
   const { email, subject, message } = await req.json();
   console.log(email, subject, message);
+
+  if (!fromEmail) {
+    return NextResponse.json({ error: 'FROM_EMAIL environment variable is not set.' }, { status: 500 });
+  }
+
   try {
     const data = await resend.emails.send({
       from: fromEmail,
@@ -23,6 +28,6 @@ export async function POST(req: Request) {
     });
     return NextResponse.json(data);
   } catch (error) {
-    return NextResponse.json({ error });
+    return NextResponse.json({ error: error.message || 'An error occurred while sending the email.' }, { status: 500 });
   }
 }
