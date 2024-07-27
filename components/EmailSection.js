@@ -64,14 +64,17 @@ const EmailSection = () => {
             <Image src={LinkedinIcon} alt="Linkedin Icon" />
           </Link> */}
           <Link href="https://www.facebook.com/reaksmey.rin.1/" target="_blank">
-          <Image className="w-[50px] h-[50px]" src={FacebookIcon} alt="Facebook Icon" />
-
+            <Image
+              className="w-[50px] h-[50px]"
+              src={FacebookIcon}
+              alt="Facebook Icon"
+            />
           </Link>
         </div>
       </div>
       <div>
         {emailSubmitted ? (
-          <p className="text-green-500 text-sm mt-2">
+          <p className="text-white text-center text-sm mt-2 border border-green-500 bg-[#121212] p-4 rounded-lg "> 
             Email sent successfully!
           </p>
         ) : (

@@ -1,13 +1,18 @@
-import { NextResponse } from "next/server";
-import { Resend } from "resend";
+import { NextResponse } from 'next/server';
+import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const fromEmail = process.env.FROM_EMAIL;
 
-export async function POST(req, res) {
-  const { email, subject, message } = await req.json();
-  console.log(email, subject, message);
+export async function POST(req) {
   try {
+    // Log environment variables to ensure they are loaded
+    console.log("RESEND_API_KEY:", process.env.RESEND_API_KEY);
+    console.log("FROM_EMAIL:", process.env.FROM_EMAIL);
+
+    const { email, subject, message } = await req.json();
+    console.log("Received request:", { email, subject, message });
+
     const data = await resend.emails.send({
       from: fromEmail,
       to: [fromEmail, email],
@@ -21,8 +26,11 @@ export async function POST(req, res) {
         </>
       ),
     });
+
+    console.log("Email sent successfully:", data);
     return NextResponse.json(data);
   } catch (error) {
-    return NextResponse.json({ error });
+    console.error("Error sending email:", error);
+    return NextResponse.json({ error: error.message || "An error occurred" });
   }
 }
