@@ -21,13 +21,10 @@ const EmailSection = () => {
 
     // Form the request for sending data to the server.
     const options = {
-      // The method is POST because we are sending data.
       method: "POST",
-      // Tell the server we're sending JSON.
       headers: {
         "Content-Type": "application/json",
       },
-      // Body of the request is the JSON data we created above.
       body: JSONdata,
     };
 
@@ -51,7 +48,6 @@ const EmailSection = () => {
           Let&apos;s Connect
         </h5>
         <p className="text-[#ADB7BE] mb-4 max-w-md">
-          {" "}
           I&apos;m currently looking for new opportunities, my inbox is always
           open. Whether you have a question or just want to say hi, I&apos;ll
           try my best to get back to you!
@@ -60,9 +56,6 @@ const EmailSection = () => {
           <Link href="https://github.com/SmeyDV" target="_blank">
             <Image src={GithubIcon} alt="Github Icon" />
           </Link>
-          {/* <Link href="linkedin.com" target="_blank">
-            <Image src={LinkedinIcon} alt="Linkedin Icon" />
-          </Link> */}
           <Link href="https://www.facebook.com/reaksmey.rin.1/" target="_blank">
             <Image
               className="w-[50px] h-[50px]"
@@ -74,7 +67,7 @@ const EmailSection = () => {
       </div>
       <div>
         {emailSubmitted ? (
-          <p className="text-white text-center text-sm mt-2 border border-green-500 bg-[#121212] p-4 rounded-lg "> 
+          <p className="text-white text-center text-sm mt-2 border border-green-500 bg-[#121212] p-4 rounded-lg">
             Email sent successfully!
           </p>
         ) : (
@@ -121,6 +114,7 @@ const EmailSection = () => {
               <textarea
                 name="message"
                 id="message"
+                required
                 className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5"
                 placeholder="Let's talk about..."
               />
