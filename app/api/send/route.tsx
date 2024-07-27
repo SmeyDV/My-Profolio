@@ -28,6 +28,8 @@ export async function POST(req: Request) {
     });
     return NextResponse.json(data);
   } catch (error) {
-    return NextResponse.json({ error: error.message || 'An error occurred while sending the email.' }, { status: 500 });
+    // Explicitly cast error to any to access the message property
+    const errorMessage = (error as any).message || 'An error occurred while sending the email.';
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
