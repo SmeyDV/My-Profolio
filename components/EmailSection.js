@@ -8,9 +8,14 @@ import Image from "next/image";
 
 const EmailSection = () => {
   const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
+
     const data = {
       email: e.target.email.value,
       subject: e.target.subject.value,
@@ -19,7 +24,6 @@ const EmailSection = () => {
     const JSONdata = JSON.stringify(data);
     const endpoint = "/api/send";
 
-    // Form the request for sending data to the server.
     const options = {
       method: "POST",
       headers: {
@@ -28,12 +32,21 @@ const EmailSection = () => {
       body: JSONdata,
     };
 
-    const response = await fetch(endpoint, options);
-    const resData = await response.json();
+    try {
+      const response = await fetch(endpoint, options);
+      const resData = await response.json();
 
-    if (response.status === 200) {
-      console.log("Message sent.");
-      setEmailSubmitted(true);
+      if (response.status === 200) {
+        console.log("Message sent.");
+        setEmailSubmitted(true);
+      } else {
+        setError(resData.error || "Failed to send the email. Please try again.");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -122,9 +135,11 @@ const EmailSection = () => {
             <button
               type="submit"
               className="bg-primary-500 hover:bg-primary-600 text-white font-medium py-2.5 px-5 rounded-lg w-full"
+              disabled={loading}
             >
-              Send Message
+              {loading ? "Sending..." : "Send Message"}
             </button>
+            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </form>
         )}
       </div>
