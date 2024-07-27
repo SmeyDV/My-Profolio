@@ -1,52 +1,42 @@
 "use client";
 import React, { useState } from "react";
 import GithubIcon from "../public/github-icon.svg";
+import LinkedinIcon from "../public/linkedin-icon.svg";
 import FacebookIcon from "../public/facebook-icon.svg";
 import Link from "next/link";
 import Image from "next/image";
 
-const EmailSection: React.FC = () => {
+const EmailSection = () => {
   const [emailSubmitted, setEmailSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError("");
-
-    const form = e.currentTarget;
     const data = {
-      email: form.email.value,
-      subject: form.subject.value,
-      message: form.message.value,
+      email: e.target.email.value,
+      subject: e.target.subject.value,
+      message: e.target.message.value,
     };
     const JSONdata = JSON.stringify(data);
     const endpoint = "/api/send";
 
+    // Form the request for sending data to the server.
     const options = {
+      // The method is POST because we are sending data.
       method: "POST",
+      // Tell the server we're sending JSON.
       headers: {
         "Content-Type": "application/json",
       },
+      // Body of the request is the JSON data we created above.
       body: JSONdata,
     };
 
-    try {
-      const response = await fetch(endpoint, options);
-      const resData = await response.json();
+    const response = await fetch(endpoint, options);
+    const resData = await response.json();
 
-      if (response.ok) {
-        console.log("Message sent.");
-        setEmailSubmitted(true);
-      } else {
-        setError(resData.error || "Failed to send the email. Please try again.");
-      }
-    } catch (err) {
-      console.error(err);
-      setError("An error occurred. Please try again.");
-    } finally {
-      setLoading(false);
+    if (response.status === 200) {
+      console.log("Message sent.");
+      setEmailSubmitted(true);
     }
   };
 
@@ -61,16 +51,21 @@ const EmailSection: React.FC = () => {
           Let&apos;s Connect
         </h5>
         <p className="text-[#ADB7BE] mb-4 max-w-md">
+          {" "}
           I&apos;m currently looking for new opportunities, my inbox is always
           open. Whether you have a question or just want to say hi, I&apos;ll
           try my best to get back to you!
         </p>
-        <div className="socials flex flex-row gap-2 ">
+        <div className="socials flex flex-row gap-2">
           <Link href="https://github.com/SmeyDV" target="_blank">
             <Image src={GithubIcon} alt="Github Icon" />
           </Link>
-          <Link href="https://www.facebook.com/reaksmey.rin.1/">
-            <Image className="w-[50px] h-[50px]" src={FacebookIcon} alt="Facebook Icon" />
+          {/* <Link href="linkedin.com" target="_blank">
+            <Image src={LinkedinIcon} alt="Linkedin Icon" />
+          </Link> */}
+          <Link href="https://www.facebook.com/reaksmey.rin.1/" target="_blank">
+          <Image className="w-[50px] h-[50px]" src={FacebookIcon} alt="Facebook Icon" />
+
           </Link>
         </div>
       </div>
@@ -94,7 +89,7 @@ const EmailSection: React.FC = () => {
                 id="email"
                 required
                 className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5"
-                placeholder="your email"
+                placeholder="Enter your email"
               />
             </div>
             <div className="mb-6">
@@ -123,7 +118,6 @@ const EmailSection: React.FC = () => {
               <textarea
                 name="message"
                 id="message"
-                required
                 className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5"
                 placeholder="Let's talk about..."
               />
@@ -131,11 +125,9 @@ const EmailSection: React.FC = () => {
             <button
               type="submit"
               className="bg-primary-500 hover:bg-primary-600 text-white font-medium py-2.5 px-5 rounded-lg w-full"
-              disabled={loading}
             >
-              {loading ? "Sending..." : "Send Message"}
+              Send Message
             </button>
-            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </form>
         )}
       </div>
