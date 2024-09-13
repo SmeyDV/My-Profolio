@@ -42,15 +42,15 @@ const projectsData: Project[] = [
     gitUrl: "https://github.com/SmeyDV/dog_gallery",
     previewUrl: "https://smeydv.github.io/dog_gallery/index.html",
   },
-  // {
-  //   id: 4,
-  //   title: "Food Ordering Application",
-  //   description: "Project 4 description",
-  //   image: "/images/projects/4.png",
-  //   tag: ["All", "Mobile"],
-  //   gitUrl: "/",
-  //   previewUrl: "/",
-  // }
+  {
+    id: 4,
+    title: "Let Kicks",
+    description: "Shoes selling website",
+    image: "/images/projects/4.png",
+    tag: ["All", "Web"],
+    gitUrl: "/",
+    previewUrl: "https://letkick.vercel.app/",
+  }
 ];
 
 const ProjectsSection: React.FC = () => {
