@@ -26,8 +26,7 @@ const HeroSection = () => {
                 1000,
                 "Web Developer",
                 1000,
-                "Mobile Developer",
-                1000,
+                
               ]}
               wrapper="span"
               speed={50}
@@ -35,7 +34,7 @@ const HeroSection = () => {
             />
           </h1>
           <p className="text-[#ADB7BE] text-base sm:text-lg mb-6 lg:text-xl">
-            I&apos;m a website and mobile developer. I
+            I&apos;m a website developer. I
             build easy-to-use websites and apps for people to enjoy. I enjoy
             making ideas come to life with my skills.
           </p>

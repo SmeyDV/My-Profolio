@@ -17,8 +17,7 @@ const TAB_DATA: TabData[] = [
       <ul className="list-disc pl-2">
         <li>C++</li>
         <li>Python</li>
-        <li>Node.js</li>
-        <li>PHP</li>
+        <li>Nextjs</li>
         <li>JavaScript</li>
         <li>React</li>
       </ul>
@@ -39,8 +38,9 @@ const TAB_DATA: TabData[] = [
     id: "certifications",
     content: (
       <ul className="list-disc pl-2">
-        <li> Step IT Academy Web Development 2024</li>
+        <li> Step IT Academy Web Development 2023</li>
         <li>YCC C++</li>
+        <li>Cambodian CS Cup Top 2024</li>
       </ul>
     ),
   },

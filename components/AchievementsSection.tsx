@@ -17,7 +17,7 @@ interface Achievement {
 const achievementsList: Achievement[] = [
   {
     metric: "Projects",
-    value: "3",
+    value: "4",
     postfix: "+",
   },
   // {
@@ -27,11 +27,11 @@ const achievementsList: Achievement[] = [
   // },
   {
     metric: "Awards",
-    value: "7",
+    value: "2",
   },
   {
     metric: "Years",
-    value: "1",
+    value: "2",
   },
 ];
 
